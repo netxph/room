@@ -1,4 +1,4 @@
-﻿namespace Room.Api.Controllers
+﻿namespace Room.Api
 {
     public interface ISecurityService
     {

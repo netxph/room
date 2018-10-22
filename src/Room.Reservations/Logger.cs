@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Room.Api.Controllers
+namespace Room.Reservations
 {
     public class Logger
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Room.Reservations.Core;
 
-namespace Room.Api.Controllers
+namespace Room.Reservations
 {
     public class ReservationRepository : IReservationRepository
     {
@@ -21,6 +22,11 @@ namespace Room.Api.Controllers
                         new DateTime(2018, 12, 1, 12, 0, 0),
                         new DateTime(2018, 12, 1, 13, 0, 0)))
             };
+        }
+
+        public IEnumerable<Reservation> GetAllActive()
+        {
+            return GetAll();
         }
     }
 }

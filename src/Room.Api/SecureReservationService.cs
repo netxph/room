@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
-using System.Threading.Tasks;
+using Room.Api.Controllers;
+using Room.Reservations.Core;
 
-namespace Room.Api.Controllers
+namespace Room.Api
 {
     public class SecureReservationService : IReservationService
     {

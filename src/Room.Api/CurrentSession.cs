@@ -1,4 +1,6 @@
-﻿namespace Room.Api.Controllers
+﻿using Room.Reservations.Core;
+
+namespace Room.Api
 {
     public class CurrentSession
     {

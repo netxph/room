@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Room.Reservations.Core;
 
-namespace Room.Api.Controllers
+namespace Room.Reservations
 {
     public class ExceptionReservationService : IReservationService
     {

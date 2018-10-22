@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Room.Api.Controllers;
+using Room.Reservations;
+using Room.Reservations.Core;
 
 namespace Room.Api
 {

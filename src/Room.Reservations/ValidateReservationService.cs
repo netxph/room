@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Microsoft.CodeAnalysis.Operations;
+using Room.Reservations.Core;
 
-namespace Room.Api.Controllers
+namespace Room.Reservations
 {
     public class ValidateReservationService : IReservationService
     {

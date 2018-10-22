@@ -1,4 +1,4 @@
-﻿namespace Room.Api.Controllers
+﻿namespace Room.Reservations.Core
 {
     public interface IReservationService
     {

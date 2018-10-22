@@ -9,6 +9,7 @@ using System.Text;
 using FluentValidation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Room.Reservations.Core;
 
 namespace Room.Api.Controllers
 {

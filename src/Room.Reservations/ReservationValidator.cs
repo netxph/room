@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using Room.Reservations.Core;
 
-namespace Room.Api.Controllers
+namespace Room.Reservations
 {
     public class ReservationValidator : AbstractValidator<Reservation>
     {
