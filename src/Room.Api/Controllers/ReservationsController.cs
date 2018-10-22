@@ -27,7 +27,7 @@ namespace Room.Api.Controllers
                 {
                     var security = new SecurityService();
 
-                    if (security.HasAccess(User.Identity.Name))
+                    if (security.HasAccess(CurrentSession.User.Name))
                     {
 
                         var watch = Stopwatch.StartNew();
@@ -86,5 +86,4 @@ namespace Room.Api.Controllers
             
 
     }
-
 }
