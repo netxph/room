@@ -1,6 +1,6 @@
 ﻿namespace Room.Api.Controllers
 {
-    public class SecurityService
+    public class SecurityService : ISecurityService
     {
         public bool HasAccess(string user)
         {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using FluentValidation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -14,28 +15,49 @@ namespace Room.Api.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
+
+        private readonly ISecurityService _securityService;
+        private readonly AbstractValidator<Reservation> _validator;
+        private readonly IReservationRepository _repository;
+
+        public ReservationsController(ISecurityService securityService, IReservationRepository repository, AbstractValidator<Reservation> validator)
+        {
+            _securityService = securityService ?? throw new ArgumentNullException(nameof(securityService));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        }
+
         [HttpPost]
-        public IActionResult Post(Reservation reservation)
+        public IActionResult Post(ReservationRequest request)
         {
 
-            var validator = new ReservationValidator();
-            var result = validator.Validate(reservation);
+            var reservation = new Reservation()
+            {
+                From = request.From,
+                To = request.To,
+                Location = new Location()
+                {
+                    Name = request.Location
+                },
+                User = new User()
+                {
+                    Name = CurrentSession.User.Name
+                }
+            };
+
+            var result = _validator.Validate(reservation);
 
             if (result.IsValid)
             {
                 try
                 {
-                    var security = new SecurityService();
-
-                    if (security.HasAccess(CurrentSession.User.Name))
+                    if (_securityService.HasAccess(CurrentSession.User.Name))
                     {
 
                         var watch = Stopwatch.StartNew();
 
-                        var repository = new ReservationRepository();
-
                         var reservations = 
-                            repository
+                            _repository
                                 .GetAll()
                                 .Where(r => r.To > DateTime.UtcNow).ToList();
 
@@ -52,7 +74,7 @@ namespace Room.Api.Controllers
                             throw new ArgumentOutOfRangeException("From", "Reservation is in conflict with other reservation");
                         }
 
-                        repository.Create(reservation);
+                        _repository.Create(reservation);
 
                         using (var client = new HttpClient())
                         {

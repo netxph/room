@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Room.Api.Controllers
 {
-    public class ReservationRepository
+    public class ReservationRepository : IReservationRepository
     {
         public void Create(Reservation reservation)
         {
