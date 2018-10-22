@@ -20,7 +20,10 @@ namespace Room.Api.Controllers
         private readonly AbstractValidator<Reservation> _validator;
         private readonly IReservationRepository _repository;
 
-        public ReservationsController(ISecurityService securityService, IReservationRepository repository, AbstractValidator<Reservation> validator)
+        public ReservationsController(
+            ISecurityService securityService, 
+            IReservationRepository repository, 
+            AbstractValidator<Reservation> validator)
         {
             _securityService = securityService ?? throw new ArgumentNullException(nameof(securityService));
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
@@ -31,19 +34,8 @@ namespace Room.Api.Controllers
         public IActionResult Post(ReservationRequest request)
         {
 
-            var reservation = new Reservation()
-            {
-                From = request.From,
-                To = request.To,
-                Location = new Location()
-                {
-                    Name = request.Location
-                },
-                User = new User()
-                {
-                    Name = CurrentSession.User.Name
-                }
-            };
+            var reservation = new Reservation(new User(CurrentSession.User.Name), new Location(request.Location),
+                new Range(request.From, request.To));
 
             var result = _validator.Validate(reservation);
 
@@ -59,16 +51,16 @@ namespace Room.Api.Controllers
                         var reservations = 
                             _repository
                                 .GetAll()
-                                .Where(r => r.To > DateTime.UtcNow).ToList();
+                                .Where(r => r.Range.To > DateTime.UtcNow).ToList();
 
                         if(reservations.Any(r => r.User.Name == User.Identity.Name 
-                            && (reservation.From >= r.From && reservation.To <= r.To)))
+                            && (reservation.Range.From >= r.Range.From && reservation.Range.To <= r.Range.To)))
                         {
                             throw new ArgumentOutOfRangeException("From", "Reservation is in conflict with your own module");
                         }
 
                         if (reservations.Any(r =>
-                            (reservation.From >= r.From && reservation.To <= r.To) &&
+                            (reservation.Range.From >= r.Range.From && reservation.Range.To <= r.Range.To) &&
                             r.Location.Name == reservation.Location.Name))
                         {
                             throw new ArgumentOutOfRangeException("From", "Reservation is in conflict with other reservation");

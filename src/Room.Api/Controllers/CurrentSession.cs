@@ -5,7 +5,7 @@
 
         public static User User
         {
-            get {  return new User() { Name = "Marc"};}
+            get { return new User("Marc"); }
         }
 
     }
